@@ -4,6 +4,7 @@
     --purple-light: #c5c5fa;
     --shadow: 0px 4px 40px 0px #0000001f;
     --shadow-light: 0px 4px 40px 0px #ffffff1f;
+    --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {
@@ -67,10 +68,7 @@ body {
 
 .frame {
     flex: 2 2 auto;
-    /* max-width: 50%; */
-    width: 50%;
     min-width: 40%;
-    /* max-height: 50%; */
     min-height: 40%;
     /* background-color: var(--purple-light); */
     border: 1px solid var(--purple-dark);
@@ -80,10 +78,9 @@ body {
     align-items: center;
 }
 
-.frame > video {
-    position: relative;
-    min-width: 40%;
-    min-height: 40%;
+video {
+    min-height: 100px;
+    min-width: 100px;
 }
 
 .tag {

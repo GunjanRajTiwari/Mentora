@@ -6,12 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Room</title>
 
-        <link rel="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <script>
+            const ROOM_ID = "<%= roomId %>";
+        </script>
+
+        <script src="/socket.io/socket.io.js" defer></script>
     </head>
     <body>
         <div class="container">
             <div class="frames" id="frames">
-                <div class="frame">
+                <div class="frame" id="myFrame">
                     <video id="myVideo" autoplay muted></video>
                 </div>
             </div>
@@ -24,6 +29,6 @@
             </div>
         </div>
 
-        <script src="./script.js" defer></script>
+        <script src="./js/script.js" defer></script>
     </body>
 </html>

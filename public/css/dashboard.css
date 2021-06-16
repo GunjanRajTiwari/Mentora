@@ -1,0 +1,125 @@
+:root {
+    --purple-dark: #4548f4;
+    --purple: #6b6cf3;
+    --purple-light: #c5c5fa;
+    --text-color: #fff;
+    --gray: #343434;
+    --gray-hover: #3a3a3a;
+    --shadow: 0px 4px 40px 0px #0000001f;
+    --shadow-light: 0px 4px 40px 0px #ffffff1f;
+    --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+p {
+    margin: 8px 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #343434;
+}
+
+.btn-default {
+    background-color: var(--purple-dark);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 0.5rem 1.2rem 0.6rem;
+    letter-spacing: 1px;
+}
+
+.btn-default:hover {
+    background-color: var(--purple);
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    color: var(--text-color);
+    font-family: var(--font);
+    letter-spacing: 1px;
+}
+
+.brand {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.navlinks {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+}
+
+.navlinks li {
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.navlinks li:hover {
+    background-color: var(--purple);
+}
+
+.navlinks a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.container {
+    padding: 4%;
+    font-family: var(--font);
+    color: var(--text-color);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4%;
+}
+
+.profile,
+.startMeet {
+    flex-grow: 3;
+    padding: 0.6rem 1.6rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    letter-spacing: 1px;
+}
+
+.heading {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.startMeet {
+    flex-grow: 2;
+    padding: 1rem 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--purple-dark);
+}
+
+.startMeet span {
+    font-size: 1.2rem;
+}
+
+.startMeet a {
+    background-color: var(--gray);
+}
+
+.startMeet a:hover {
+    background-color: #444;
+}
