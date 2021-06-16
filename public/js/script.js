@@ -6,6 +6,9 @@ const username = prompt("Enter your name: ");
 
 const socket = io("/");
 socket.emit("join-room", ROOM_ID, username);
+socket.on("user-connected", (userId) => {
+    console.log("User connected: " + userId);
+});
 
 navigator.mediaDevices
     .getUserMedia({
