@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -39,6 +40,8 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(8000, () => {
+const PORT = process.env.port || 8000;
+
+server.listen(PORT, () => {
     console.log("Server is running ...");
 });
