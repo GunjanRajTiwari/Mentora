@@ -52,7 +52,7 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     overflow-y: auto;
     align-items: center;
 }
@@ -73,8 +73,8 @@ body {
 
 .frame {
     flex: 2 2 auto;
-    height: 33.33%;
-    width: 33.33%;
+    height: 50%;
+    width: 50%;
     object-fit: cover;
     /* background-color: var(--purple-light); */
     border: 1px solid var(--purple-dark);
@@ -108,7 +108,7 @@ video {
 
 @media (min-width: 480px) {
     .frames {
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .frame {
