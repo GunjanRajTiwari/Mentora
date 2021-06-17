@@ -73,8 +73,8 @@ body {
 
 .frame {
     flex: 2 2 auto;
-    height: 50%;
-    width: 50%;
+    height: 200px;
+    width: 200px;
     object-fit: cover;
     /* background-color: var(--purple-light); */
     border: 1px solid var(--purple-dark);
