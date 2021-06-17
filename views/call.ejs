@@ -11,21 +11,18 @@
             const ROOM_ID = "<%= roomId %>";
         </script>
 
+        <script src="./js/peerjs.min.js" defer></script>
         <script src="/socket.io/socket.io.js" defer></script>
     </head>
     <body>
         <div class="container">
-            <div class="frames" id="frames">
-                <div class="frame" id="myFrame">
-                    <video id="myVideo" autoplay muted></video>
-                </div>
-            </div>
+            <div class="frames" id="frames"></div>
 
             <div class="controls">
-                <div class="circle">🎤</div>
-                <div class="circle">🎥</div>
-                <div class="circle">🖥️</div>
-                <div class="circle">📞</div>
+                <div class="circle emoji">🎤</div>
+                <div class="circle emoji">🎥</div>
+                <div class="circle emoji">🖥️</div>
+                <div class="circle emoji">📞</div>
             </div>
         </div>
 

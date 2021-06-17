@@ -36,6 +36,10 @@ body {
     background-color: var(--purple);
 }
 
+.emoji {
+    text-shadow: 0 0 2px #fff;
+}
+
 .container {
     height: 100vh;
     display: flex;
@@ -46,10 +50,11 @@ body {
 .frames {
     flex-grow: 2;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
     flex-direction: row;
     overflow-y: auto;
+    align-items: center;
 }
 
 .frames::-webkit-scrollbar {
@@ -68,8 +73,9 @@ body {
 
 .frame {
     flex: 2 2 auto;
-    min-width: 40%;
-    min-height: 40%;
+    height: 33.33%;
+    width: 33.33%;
+    object-fit: cover;
     /* background-color: var(--purple-light); */
     border: 1px solid var(--purple-dark);
     border-radius: 4px;
