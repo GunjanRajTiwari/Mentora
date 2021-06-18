@@ -20,10 +20,14 @@ function makeCode(length = 8) {
 }
 
 app.get("/", (req, res) => {
-    res.redirect("/" + makeCode());
+    res.render("dashboard");
 });
 
-app.get("/:room", (req, res) => {
+app.get("/call", (req, res) => {
+    res.redirect("/call/" + makeCode());
+});
+
+app.get("/call/:room", (req, res) => {
     const roomId = req.params.room;
     res.render("call", { roomId });
 });

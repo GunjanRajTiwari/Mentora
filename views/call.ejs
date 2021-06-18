@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Room</title>
 
-        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="/css/call.css" />
         <script>
             const ROOM_ID = "<%= roomId %>";
         </script>
 
-        <script src="./js/peerjs.min.js" defer></script>
+        <script src="/js/peerjs.min.js" defer></script>
         <script src="/socket.io/socket.io.js" defer></script>
     </head>
     <body>
@@ -19,13 +19,13 @@
             <div class="frames" id="frames"></div>
 
             <div class="controls">
-                <div class="circle emoji">🎤</div>
-                <div class="circle emoji">🎥</div>
-                <div class="circle emoji">🖥️</div>
-                <div class="circle emoji">📞</div>
+                <div id="mute" class="circle emoji">🎤</div>
+                <div id="video-off" class="circle emoji">🎥</div>
+                <div id="screen-share" class="circle emoji">🖥️</div>
+                <div id="hang-up" class="circle emoji">📞</div>
             </div>
         </div>
 
-        <script src="./js/script.js" defer></script>
+        <script src="/js/call.js" defer></script>
     </body>
 </html>

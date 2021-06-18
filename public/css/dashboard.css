@@ -102,6 +102,10 @@ nav {
     text-align: center;
 }
 
+.profile p {
+    text-align: center;
+}
+
 .startMeet {
     flex-grow: 2;
     padding: 1rem 1.6rem;
