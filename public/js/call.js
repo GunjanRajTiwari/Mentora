@@ -13,7 +13,9 @@ const socket = io("/");
 //     host: "/",
 //     port: "8001",
 // });
-const myPeer = new Peer();
+const myPeer = new Peer({
+    config: { iceServers: [{ url: "stun:stun.l.google.com:19302" }] },
+});
 var myUserId = "";
 
 const myVideo = document.createElement("video");
