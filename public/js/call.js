@@ -14,7 +14,16 @@ const socket = io("/");
 //     port: "8001",
 // });
 const myPeer = new Peer({
-    config: { iceServers: [{ url: "stun:stun.l.google.com:19302" }] },
+    config: {
+        iceServers: [
+            {
+                url: "turn:numb.viagenie.ca",
+                credential: "I1server",
+                username: "roarout20@gmail.com",
+            },
+            { url: "stun:stun.l.google.com:19302" },
+        ],
+    },
 });
 var myUserId = "";
 
