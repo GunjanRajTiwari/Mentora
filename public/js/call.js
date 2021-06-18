@@ -137,8 +137,8 @@ function initEventHandlers(videoStream) {
             videoStream.getVideoTracks()[0].enabled = false;
             frames.replaceChild(nameFrame, myVideo);
         } else {
+            myVideo.srcObject = videoStream;
             frames.replaceChild(myVideo, nameFrame);
-            myVideo.srcObject = stream;
             videoStream.getVideoTracks()[0].enabled = true;
         }
     });
