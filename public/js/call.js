@@ -100,14 +100,14 @@ function addVideoStream(video, stream) {
     frames.appendChild(video);
 }
 
-// function addWithoutVideo(userId, username) {
-//     const frame = document.createElement("div");
-//     frame.classList.add("frame");
-//     frame.innerHTML = `
-//         <div class = "circle tag">${username}</div>
-//     `;
-//     frames.appendChild(frame);
-// }
+function withoutVideo(username) {
+    const frame = document.createElement("div");
+    frame.classList.add("frame");
+    frame.innerHTML = `
+        <div class = "circle tag">${username}</div>
+    `;
+    return frame;
+}
 
 // --------------------------------------//
 // ------ Button event handlers ---------//
@@ -129,12 +129,15 @@ function initEventHandlers(videoStream) {
         }
     });
 
+    const nameFrame = withoutVideo("You");
     videoOff.addEventListener("click", () => {
         videoOff.classList.toggle("red-bg");
         let enabled = videoStream.getVideoTracks()[0].enabled;
         if (enabled) {
             videoStream.getVideoTracks()[0].enabled = false;
+            frames.replaceChild(nameFrame, myVideo);
         } else {
+            frames.replaceChild(myVideo, nameFrame);
             videoStream.getVideoTracks()[0].enabled = true;
         }
     });
