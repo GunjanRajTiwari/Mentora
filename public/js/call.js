@@ -120,10 +120,23 @@ const hangUp = document.getElementById("hang-up");
 function initEventHandlers(videoStream) {
     mute.addEventListener("click", () => {
         mute.classList.toggle("red-bg");
+        const enabled = videoStream.getAudioTracks()[0].enabled;
+        console.log(enabled);
+        if (enabled) {
+            videoStream.getAudioTracks()[0].enabled = false;
+        } else {
+            videoStream.getAudioTracks()[0].enabled = true;
+        }
     });
 
     videoOff.addEventListener("click", () => {
         videoOff.classList.toggle("red-bg");
+        let enabled = videoStream.getVideoTracks()[0].enabled;
+        if (enabled) {
+            videoStream.getVideoTracks()[0].enabled = false;
+        } else {
+            videoStream.getVideoTracks()[0].enabled = true;
+        }
     });
 
     screenShare.addEventListener("click", () => {
