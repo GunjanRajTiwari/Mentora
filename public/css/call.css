@@ -2,6 +2,8 @@
     --purple-dark: #4548f4;
     --purple: #6b6cf3;
     --purple-light: #c5c5fa;
+    --danger: #e33a6d;
+    --danger-light: #ef6e8d;
     --shadow: 0px 4px 40px 0px #0000001f;
     --shadow-light: 0px 4px 40px 0px #ffffff1f;
     --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -74,9 +76,9 @@ body {
 
 .frame {
     flex: 2 2 auto;
-    height: 500px;
-    width: 500px;
-    object-fit: cover;
+    height: 50%;
+    width: 50;
+    object-fit: contain;
     /* background-color: var(--purple-light); */
     border: 1px solid var(--purple-dark);
     border-radius: 4px;
@@ -116,4 +118,14 @@ video {
         min-width: 30%;
         min-height: 30%;
     }
+}
+
+/* Helpers */
+.red-bg {
+    transition: background-color 0.4s ease;
+    background-color: var(--danger);
+}
+
+.red-bg:hover {
+    background-color: #ef6e8d;
 }

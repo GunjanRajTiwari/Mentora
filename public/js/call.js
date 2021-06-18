@@ -2,6 +2,8 @@ const frames = document.getElementById("frames");
 
 var state = {
     video: false,
+    audio: true,
+    screen: false,
 };
 const username = prompt("Enter your name: ");
 
@@ -32,41 +34,48 @@ myPeer.on("open", (id) => {
         .then((stream) => {
             addVideoStream(myVideo, stream);
 
-            myPeer.on("call", (call) => {
-                console.log("call aayo");
-                call.answer(stream);
+            initEventHandlers(stream);
 
-                const video = document.createElement("video");
-                call.on("stream", (userVideoStream) => {
-                    console.log("stream vayo");
-                    addVideoStream(video, userVideoStream);
-                });
-            });
-
-            socket.on("user-connected", (userId) => {
-                state.video = true;
-                connectToNewUser(userId, stream);
-            });
-
-            socket.emit("join-room", ROOM_ID, id);
-
-            socket.on("user-disconnected", (userId) => {
-                console.log("disconnect: " + userId);
-                if (peers[userId]) {
-                    peers[userId].close();
-                } else {
-                    console.log("call xaina");
-                }
-            });
+            callHandle(stream, id);
         })
         .catch((e) => {
             console.log(e);
-            addVideoStream(null, "You", null);
+            addVideoStream(null, null);
         });
 });
 
+function callHandle(stream, id) {
+    myPeer.on("call", (call) => {
+        console.log("call aayo");
+        call.answer(stream);
+
+        const video = document.createElement("video");
+        call.on("stream", (userVideoStream) => {
+            console.log("stream vayo");
+            addVideoStream(video, userVideoStream);
+        });
+    });
+
+    socket.on("user-connected", (userId) => {
+        state.video = true;
+        connectToNewUser(userId, stream);
+    });
+
+    socket.emit("join-room", ROOM_ID, id);
+
+    socket.on("user-disconnected", (userId) => {
+        console.log("disconnect: " + userId);
+        if (peers[userId]) {
+            peers[userId].close();
+        } else {
+            console.log("call xaina");
+        }
+    });
+}
+
 function connectToNewUser(userId, stream) {
     const call = myPeer.call(userId, stream);
+    console.log(call);
 
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
@@ -82,6 +91,7 @@ function connectToNewUser(userId, stream) {
 }
 
 function addVideoStream(video, stream) {
+    if (!stream || !video) return;
     video.classList.add("frame");
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", (e) => {
@@ -98,3 +108,46 @@ function addVideoStream(video, stream) {
 //     `;
 //     frames.appendChild(frame);
 // }
+
+// --------------------------------------//
+// ------ Button event handlers ---------//
+// --------------------------------------//
+const mute = document.getElementById("mute");
+const videoOff = document.getElementById("video-off");
+const screenShare = document.getElementById("screen-share");
+const hangUp = document.getElementById("hang-up");
+
+function initEventHandlers(videoStream) {
+    mute.addEventListener("click", () => {
+        mute.classList.toggle("red-bg");
+    });
+
+    videoOff.addEventListener("click", () => {
+        videoOff.classList.toggle("red-bg");
+    });
+
+    screenShare.addEventListener("click", () => {
+        screenShare.classList.toggle("red-bg");
+        if (!state.screen) {
+            navigator.mediaDevices
+                .getDisplayMedia({
+                    cursor: true,
+                })
+                .then((stream) => {
+                    state.screen = true;
+                    stream.getVideoTracks()[0].onended = () => {
+                        myVideo.srcObject = videoStream;
+                        state.screen = false;
+                    };
+                    myVideo.srcObject = stream;
+                    for (const uid in peers) {
+                        peers[uid].answer(stream);
+                    }
+                });
+        }
+    });
+
+    hangUp.addEventListener("click", () => {
+        location.href = "/";
+    });
+}
