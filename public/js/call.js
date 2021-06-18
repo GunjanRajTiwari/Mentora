@@ -14,6 +14,7 @@ const socket = io("/");
 //     port: "8001",
 // });
 const myPeer = new Peer();
+var myUserId = "";
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -32,7 +33,7 @@ myPeer.on("open", (id) => {
             },
         })
         .then((stream) => {
-            addVideoStream(myVideo, stream);
+            addVideoStream(myVideo, stream, id);
 
             initEventHandlers(stream);
 
@@ -40,7 +41,6 @@ myPeer.on("open", (id) => {
         })
         .catch((e) => {
             console.log(e);
-            addVideoStream(null, null);
         });
 });
 
@@ -52,12 +52,13 @@ function callHandle(stream, id) {
         const video = document.createElement("video");
         call.on("stream", (userVideoStream) => {
             console.log("stream vayo");
-            addVideoStream(video, userVideoStream);
+            addVideoStream(video, userVideoStream, id);
         });
     });
 
     socket.on("user-connected", (userId) => {
         state.video = true;
+        myUserId = userId;
         connectToNewUser(userId, stream);
     });
 
@@ -80,7 +81,7 @@ function connectToNewUser(userId, stream) {
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
         console.log("call gayo");
-        addVideoStream(video, userVideoStream);
+        addVideoStream(video, userVideoStream, userId);
     });
 
     call.on("close", () => {
@@ -90,14 +91,28 @@ function connectToNewUser(userId, stream) {
     peers[userId] = call;
 }
 
-function addVideoStream(video, stream) {
+function addVideoStream(video, stream, userId) {
     if (!stream || !video) return;
     video.classList.add("frame");
+
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", (e) => {
         video.play();
     });
     frames.appendChild(video);
+
+    const nameFrame = withoutVideo("User");
+    socket.on("video-off", (uid) => {
+        if (uid === userId) {
+            frames.replaceChild(nameFrame, video);
+        }
+    });
+
+    socket.on("video-back", (uid) => {
+        if (uid === userId) {
+            frames.replaceChild(video, nameFrame);
+        }
+    });
 }
 
 function withoutVideo(username) {
@@ -121,7 +136,6 @@ function initEventHandlers(videoStream) {
     mute.addEventListener("click", () => {
         mute.classList.toggle("red-bg");
         const enabled = videoStream.getAudioTracks()[0].enabled;
-        console.log(enabled);
         if (enabled) {
             videoStream.getAudioTracks()[0].enabled = false;
         } else {
@@ -136,10 +150,12 @@ function initEventHandlers(videoStream) {
         if (enabled) {
             videoStream.getVideoTracks()[0].enabled = false;
             frames.replaceChild(nameFrame, myVideo);
+            socket.emit("video-off", myUserId);
         } else {
             myVideo.srcObject = videoStream;
             frames.replaceChild(myVideo, nameFrame);
             videoStream.getVideoTracks()[0].enabled = true;
+            socket.emit("video-back", myUserId);
         }
     });
 
@@ -151,20 +167,28 @@ function initEventHandlers(videoStream) {
                     cursor: true,
                 })
                 .then((stream) => {
+                    // myVideo.srcObject = stream;
+                    const call = myPeer.call(myUserId, stream);
+                    peers[myUserId + "ss"] = call;
                     state.screen = true;
                     stream.getVideoTracks()[0].onended = () => {
-                        myVideo.srcObject = videoStream;
+                        // myVideo.srcObject = videoStream;
+                        if (peers[myUserId + "ss"]) {
+                            peers[myUserId + "ss"].close();
+                        } else {
+                            console.log("call xaina");
+                        }
                         state.screen = false;
                     };
-                    myVideo.srcObject = videoStream;
-                    for (const uid in peers) {
-                        peers[uid].answer(stream);
-                    }
+                })
+                .catch((e) => {
+                    console.log(e);
                 });
         }
     });
 
     hangUp.addEventListener("click", () => {
+        socket.disconnect();
         location.href = "/";
     });
 }

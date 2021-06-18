@@ -38,6 +38,14 @@ io.on("connection", (socket) => {
 
         socket.broadcast.to(roomId).emit("user-connected", userId);
 
+        socket.on("video-off", (userId) => {
+            socket.broadcast.to(roomId).emit("video-off", userId);
+        });
+
+        socket.on("video-back", (userId) => {
+            socket.broadcast.to(roomId).emit("video-back", userId);
+        });
+
         socket.on("disconnect", () => {
             socket.broadcast.to(roomId).emit("user-disconnected", userId);
         });
