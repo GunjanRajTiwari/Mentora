@@ -156,7 +156,7 @@ function initEventHandlers(videoStream) {
                         myVideo.srcObject = videoStream;
                         state.screen = false;
                     };
-                    myVideo.srcObject = stream;
+                    myVideo.srcObject = videoStream;
                     for (const uid in peers) {
                         peers[uid].answer(stream);
                     }
