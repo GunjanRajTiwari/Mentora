@@ -104,7 +104,7 @@ function connectToNewUser(userId, stream) {
     });
 
     call.on("close", () => {
-        video.remove();
+        frame.video.remove();
     });
 
     peers[userId] = call;
@@ -122,13 +122,15 @@ function addVideoStream(frame, stream, userId) {
     const nameFrame = withoutVideo("User");
     socket.on("video-off", (uid) => {
         if (uid === userId) {
-            frames.replaceChild(nameFrame, videoDiv);
+            videoDiv.replaceChild(nameFrame, video);
+            // frames.replaceChild(nameFrame, videoDiv);
         }
     });
 
     socket.on("video-back", (uid) => {
         if (uid === userId) {
-            frames.replaceChild(videoDiv, nameFrame);
+            videoDiv.replaceChild(video, nameFrame);
+            // frames.replaceChild(videoDiv, nameFrame);
         }
     });
 }
@@ -136,6 +138,7 @@ function addVideoStream(frame, stream, userId) {
 function withoutVideo(username) {
     const frame = document.createElement("div");
     frame.classList.add("frame");
+    frame.classList.add("inner-frame");
     frame.innerHTML = `
         <div class = "circle tag">${username}</div>
     `;

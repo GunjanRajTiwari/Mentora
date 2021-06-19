@@ -80,11 +80,15 @@ body {
     width: 50;
     object-fit: contain;
     /* background-color: var(--purple-light); */
-    border: 1px solid var(--purple-dark);
+    /* border: 1px solid var(--purple-dark); */
     border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.inner-frame {
+    border: 2px solid var(--purple-dark);
 }
 
 video {
@@ -92,6 +96,7 @@ video {
     width: 100%;
     min-height: 100px;
     min-width: 100px;
+    border: 2px solid var(--purple-dark);
 }
 
 .tag {
