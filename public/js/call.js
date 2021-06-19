@@ -27,10 +27,11 @@ const myPeer = new Peer({
 });
 var myUserId = "";
 
-const myVideo = document.createElement("video");
-myVideo.muted = true;
+const myVideo = createFrame();
+myVideo.video.muted = true;
 
 const peers = {};
+const screens = {};
 
 myPeer.on("open", (id) => {
     navigator.mediaDevices
@@ -55,44 +56,51 @@ myPeer.on("open", (id) => {
         });
 });
 
+function createFrame() {
+    const videoDiv = document.createElement("div");
+    videoDiv.classList.add("frame");
+    const video = document.createElement("video");
+    videoDiv.appendChild(video);
+    frames.appendChild(videoDiv);
+    return { videoDiv, video };
+}
+
 function callHandle(stream, id) {
     myPeer.on("call", (call) => {
-        console.log("call aayo");
         call.answer(stream);
 
-        const video = document.createElement("video");
+        const frame = createFrame();
         call.on("stream", (userVideoStream) => {
-            console.log("stream vayo");
-            addVideoStream(video, userVideoStream, id);
+            addVideoStream(frame, userVideoStream, id);
         });
     });
 
     socket.on("user-connected", (userId) => {
-        state.video = true;
-        myUserId = userId;
         connectToNewUser(userId, stream);
     });
 
     socket.emit("join-room", ROOM_ID, id);
+    state.video = true;
+    myUserId = id;
 
     socket.on("user-disconnected", (userId) => {
         console.log("disconnect: " + userId);
         if (peers[userId]) {
             peers[userId].close();
-        } else {
-            console.log("call xaina");
+        }
+
+        if (screens[userId]) {
+            screens[userId].close();
         }
     });
 }
 
 function connectToNewUser(userId, stream) {
     const call = myPeer.call(userId, stream);
-    console.log(call);
 
-    const video = document.createElement("video");
+    const frame = createFrame();
     call.on("stream", (userVideoStream) => {
-        console.log("call gayo");
-        addVideoStream(video, userVideoStream, userId);
+        addVideoStream(frame, userVideoStream, userId);
     });
 
     call.on("close", () => {
@@ -102,26 +110,25 @@ function connectToNewUser(userId, stream) {
     peers[userId] = call;
 }
 
-function addVideoStream(video, stream, userId) {
-    if (!stream || !video) return;
-    video.classList.add("frame");
+function addVideoStream(frame, stream, userId) {
+    if (!stream) return;
+    const { videoDiv, video } = frame;
 
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", (e) => {
         video.play();
     });
-    frames.appendChild(video);
 
     const nameFrame = withoutVideo("User");
     socket.on("video-off", (uid) => {
         if (uid === userId) {
-            frames.replaceChild(nameFrame, video);
+            frames.replaceChild(nameFrame, videoDiv);
         }
     });
 
     socket.on("video-back", (uid) => {
         if (uid === userId) {
-            frames.replaceChild(video, nameFrame);
+            frames.replaceChild(videoDiv, nameFrame);
         }
     });
 }
@@ -180,14 +187,12 @@ function initEventHandlers(videoStream) {
                 .then((stream) => {
                     // myVideo.srcObject = stream;
                     const call = myPeer.call(myUserId, stream);
-                    peers[myUserId + "ss"] = call;
+                    screens[myUserId] = call;
                     state.screen = true;
                     stream.getVideoTracks()[0].onended = () => {
                         // myVideo.srcObject = videoStream;
-                        if (peers[myUserId + "ss"]) {
-                            peers[myUserId + "ss"].close();
-                        } else {
-                            console.log("call xaina");
+                        if (screens[myUserId]) {
+                            screens[myUserId].close();
                         }
                         state.screen = false;
                     };
