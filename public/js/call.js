@@ -170,11 +170,11 @@ function initEventHandlers(videoStream) {
         let enabled = videoStream.getVideoTracks()[0].enabled;
         if (enabled) {
             videoStream.getVideoTracks()[0].enabled = false;
-            frames.replaceChild(nameFrame, myVideo);
+            frames.replaceChild(nameFrame, myVideo.videoDiv);
             socket.emit("video-off", myUserId);
         } else {
-            myVideo.srcObject = videoStream;
-            frames.replaceChild(myVideo, nameFrame);
+            myVideo.video.srcObject = videoStream;
+            frames.replaceChild(myVideo.videoDiv, nameFrame);
             videoStream.getVideoTracks()[0].enabled = true;
             socket.emit("video-back", myUserId);
         }
