@@ -122,15 +122,13 @@ function addVideoStream(frame, stream, userId) {
     const nameFrame = withoutVideo("User");
     socket.on("video-off", (uid) => {
         if (uid === userId) {
-            videoDiv.replaceChild(nameFrame, video);
-            // frames.replaceChild(nameFrame, videoDiv);
+            frames.replaceChild(nameFrame, videoDiv);
         }
     });
 
     socket.on("video-back", (uid) => {
         if (uid === userId) {
-            videoDiv.replaceChild(video, nameFrame);
-            // frames.replaceChild(videoDiv, nameFrame);
+            frames.replaceChild(videoDiv, nameFrame);
         }
     });
 }
