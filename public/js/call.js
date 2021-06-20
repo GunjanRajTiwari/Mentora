@@ -68,6 +68,7 @@ function createFrame() {
 function callHandle(stream, id) {
     myPeer.on("call", (call) => {
         call.answer(stream);
+        peers[userId] = call;
 
         const frame = createFrame();
         call.on("stream", (userVideoStream) => {
